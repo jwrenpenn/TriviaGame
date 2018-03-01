@@ -39,13 +39,11 @@ body {
 #question {
     width: 100%;
     padding: 30px;
-    font-size: x-large;
     color:white;
     background-color: grey;
 }
 
 #blue-image {
-
     float: left;
 }
 
