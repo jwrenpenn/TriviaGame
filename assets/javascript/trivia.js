@@ -59,55 +59,48 @@ var questionAnswer;
   
 
 askQuestion();
-reset();
-start();
+
+function askQuestion() {
+    clearInterval(intervalId);
+    reset();
+    start();
+
+    blues.forEach((blues, index) => {
+        $("#blue-image").html(blues.image);
+        $("#answer-1").html(blues.allAnswers[0]);
+        $("#answer-2").html(blues.allAnswers[1]);
+        $("#answer-3").html(blues.allAnswers[2]);
+        $("#answer-4").html(blues.allAnswers[3]);
+        questionAnswer = blues.correctAnswer;
 
 
+        $("button").on("click", function() {
+            userAnswer = this.value;
+            setInterval(timesUp, 1000 * 15);
+            console.log(userAnswer);
 
-  function askQuestion() {
-
-
-    for (i = 0; i < blues.length; i++) {
-        $("#blue-image").html(blues[i].image);
-        $("#answer-1").html(blues[i].allAnswers[0]);
-        $("#answer-2").html(blues[i].allAnswers[1]);
-        $("#answer-3").html(blues[i].allAnswers[2]);
-        $("#answer-4").html(blues[i].allAnswers[3]);
-        questionAnswer = blues[i].correctAnswer;
-   
-    } 
-
-    $("button").on("click", function() {
-        userAnswer = this.value;
-        console.log(userAnswer);
-   
-
-        if (userAnswer == questionAnswer) {
-           correctCounter++; 
-           console.log(correctCounter);
-           clearInterval(intervalId);
-           returnScreenCorrect();
-        }
-        else {
-            clearInterval(intervalId);
-            returnScreenIncorrect();
-        }
+            if (userAnswer == questionAnswer) {
+                correctCounter++; 
+                console.log(correctCounter);
+                clearInterval(intervalId);
+                $("#question").html("<h2>That's correct!</h2>");
+                                   
+            }
+            else {
+                clearInterval(intervalId);
+                $("#question").html("<h2>Nope :(  </h2>");
+                
+            }
         
+        });
     });
-
 }
 
-
-function returnScreenCorrect() {
-    $("#question").html("<h2>That's correct!</h2>");
+function timesUp() {
+    $("#question").html("<h2>Time's Up! :(  </h2>");
+    setInterval(askQuestion, 1000 * 15);
+    
 }
-
-function returnScreenIncorrect() {
-    $("#question").html("<h2>Nope :(  </h2>");
-}
-
-
-
 function reset() {
   time = 0;
     $("#timer").text("00:00");
@@ -137,3 +130,9 @@ function timeConverter(t) {
   
     return minutes + ":" + seconds;
     }
+
+
+
+
+//function returnScreenCorrect() {
+//function returnScreenIncorrect() {
