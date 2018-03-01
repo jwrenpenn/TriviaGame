@@ -53,54 +53,63 @@ var questionTen = {
 var blues = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight, questionNine, questionTen];
 var userAnswer;
 var correctCounter = 0;
+var questionCounter = 0;
 var time = 0;
 var intervalId;
-var questionAnswer;
+var questionNumber;
   
-
 askQuestion();
 
 function askQuestion() {
     clearInterval(intervalId);
     reset();
     start();
+    //setInterval(timesUp, 1000 * 15);
 
-    blues.forEach((blues, index) => {
-        $("#blue-image").html(blues.image);
-        $("#answer-1").html(blues.allAnswers[0]);
-        $("#answer-2").html(blues.allAnswers[1]);
-        $("#answer-3").html(blues.allAnswers[2]);
-        $("#answer-4").html(blues.allAnswers[3]);
-        questionAnswer = blues.correctAnswer;
+    questionNumber = blues[questionCounter];
+    console.log("questionNumber", questionNumber); 
+    $("#blue-image").html(questionNumber.image);
+    $("#answer-1").html(questionNumber.allAnswers[0]);
+    $("#answer-2").html(questionNumber.allAnswers[1]);
+    $("#answer-3").html(questionNumber.allAnswers[2]);
+    $("#answer-4").html(questionNumber.allAnswers[3]);
+    $("#words").html("<h2>What is the pantone name for this color?</h2>");
 
+
+    console.log(questionNumber.image);
+    console.log(questionNumber.correctAnswer);
+    console.log(questionNumber.allAnswers[2]);
 
         $("button").on("click", function() {
             userAnswer = this.value;
-            setInterval(timesUp, 1000 * 15);
             console.log(userAnswer);
 
-            if (userAnswer == questionAnswer) {
+            if (userAnswer == questionNumber.correctAnswer) {
                 correctCounter++; 
+                $("#words").html("<h2>That's correct!</h2>");
                 console.log(correctCounter);
-                clearInterval(intervalId);
-                $("#question").html("<h2>That's correct!</h2>");
-                                   
+                answerScreen();                                
             }
             else {
-                clearInterval(intervalId);
-                $("#question").html("<h2>Nope :(  </h2>");
-                
+                $("#words").html("<h2>Nope :(  </h2>");
+                answerScreen();   
             }
-        
         });
-    });
+}
+
+function answerScreen() {
+    clearInterval(intervalId);
+    //setInterval(askQuestion, 1000 * 4);
+    questionCounter++;
+    askQuestion();
+    console.log(questionCounter); 
 }
 
 function timesUp() {
-    $("#question").html("<h2>Time's Up! :(  </h2>");
-    setInterval(askQuestion, 1000 * 15);
-    
+    $("#words").html("<h2>Time's Up! :(  </h2>");
+    //setInterval(askQuestion, 1000 * 4);  
 }
+
 function reset() {
   time = 0;
     $("#timer").text("00:00");
@@ -130,9 +139,3 @@ function timeConverter(t) {
   
     return minutes + ":" + seconds;
     }
-
-
-
-
-//function returnScreenCorrect() {
-//function returnScreenIncorrect() {
