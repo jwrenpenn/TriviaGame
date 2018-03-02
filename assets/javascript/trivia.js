@@ -71,16 +71,16 @@ var blues = [questionOne, questionTwo, questionThree, questionFour, questionFive
 
 var userAnswer;
 var questionNumber;
-
 var correctCounter = 0;
 var questionCounter = 0;
 var questionTimer = 0;
-var answerTimer = 0;
 var time = 0;
 var intervalId;
 
-  
-askQuestion();
+
+$("#words").html("<h2>Press Any Key To Play</h2>");
+startScreen();
+
 
 function askQuestion() {
     clearInterval(intervalId);
@@ -122,6 +122,14 @@ function askQuestion() {
     }
 }
 
+
+function startScreen() {
+    $(document).on("keyup", function(e){
+        askQuestion();
+    });
+}
+
+
 function answerScreen() {
     $("#blue-image").html(questionNumber.answImage);
     reset();
@@ -143,12 +151,10 @@ function timesUp() {
 function endScreen() {
     reset();
     clearInterval(intervalId);
+    clearTimeout(questionTimer);
     $("#words").html("<h2>Game Over. You answered " + correctCounter + " correctly!</h2>");
 
 }
-
-
-
 
 function reset() {
   time = 0;
