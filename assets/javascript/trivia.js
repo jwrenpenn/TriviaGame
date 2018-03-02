@@ -74,6 +74,8 @@ var questionNumber;
 
 var correctCounter = 0;
 var questionCounter = 0;
+var questionTimer = 0;
+var answerTimer = 0;
 var time = 0;
 var intervalId;
 
@@ -83,8 +85,8 @@ askQuestion();
 function askQuestion() {
     clearInterval(intervalId);
     reset();
-    //start();
-    //setTimeout(timesUp, 1000 * 15);
+    start();
+    questionTimer = setTimeout(timesUp, 1000 * 15);
     if (questionCounter === 10) {
         endScreen();
     }
@@ -103,6 +105,7 @@ function askQuestion() {
 
             $("button").off("click").on("click", function() {
                 userAnswer = this.value;
+                clearTimeout(questionTimer);
                 console.log("user naswer", userAnswer);
 
                 if (userAnswer == questionNumber.correctAnswer) {
@@ -129,17 +132,23 @@ function answerScreen() {
 }
 
 function timesUp() {
-    reset();
-    $("#words").html("<h2>Time's Up! :(  </h2>");
     $("#blue-image").html(questionNumber.answImage);
-    setTimeout(askQuestion, 1000 * 4);  
+    $("#words").html("<h2>Time's Up! :(  </h2>");
+    reset();
+    clearInterval(intervalId);
+    setTimeout(askQuestion, 1000 * 4);
+    questionCounter++;  
 }
 
 function endScreen() {
     reset();
+    clearInterval(intervalId);
     $("#words").html("<h2>Game Over. You answered " + correctCounter + " correctly!</h2>");
 
 }
+
+
+
 
 function reset() {
   time = 0;
